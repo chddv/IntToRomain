@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-
+/*
+ * Programme permettant de convertir un entier en un nombre romain
+ * Developpé par Christophe Dugas du Villard - 04/04/2017
+ */
 namespace IntToRomain
 {
     class Program
