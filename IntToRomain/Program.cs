@@ -10,21 +10,21 @@ using System.Text.RegularExpressions;
  */
 namespace IntToRomain
 {
-    class Program
+
+    public class RomainConverter
     {
 
-        static string intPattern = @"^(?<number>[0-9]){1,4}$"; // expression reguliere pour filtré l'entré utilisateur
         static string[] unites = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" }; // symbole romain des unitée
         static string[] dizaines = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" }; // symbole romain des dizaines
-        static string[] centaines = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "XC" }; // symbole romain des centaines
-        static string[] milliers = { "", "M", "MM", "MMMM", "MMMMM" }; //   symboles des milliers (les characteres romains se limite à 4999 sans extension (celon Wikipedia: https://fr.wikipedia.org/wiki/Num%C3%A9ration_romaine)
+        static string[] centaines = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" }; // symbole romain des centaines
+        static string[] milliers = { "", "M", "MM", "MMM", "MMMM" }; //   symboles des milliers (les characteres romains se limite à 4999 sans extension (celon Wikipedia: https://fr.wikipedia.org/wiki/Num%C3%A9ration_romaine)
 
         // recupère chacun des digits d'un entier par récursivité
         private static void GetDigits(int aNumber, ref List<int> digits)
         {
             int tempNumber = aNumber % 10; // récupération du chiffre de gauche dans tempNumber (reste de la division "entiere")
             digits.Add(tempNumber); // ajoute celui-ci au tableau des digits
-            if (aNumber /10 > 0) // si la valeur /10 est encore plus grande que 0, on continue avec celle-ci
+            if (aNumber / 10 > 0) // si la valeur /10 est encore plus grande que 0, on continue avec celle-ci
             {
                 GetDigits(aNumber / 10, ref digits);
             }
@@ -56,6 +56,13 @@ namespace IntToRomain
             Console.WriteLine("Error: " + msg);
         }
 
+    }
+
+    public class Program
+    {
+
+        static string intPattern = @"^(?<number>[0-9]){1,4}$"; // expression reguliere pour filtré l'entré utilisateur
+
         static void Main(string[] args)
         {
             
@@ -69,7 +76,7 @@ namespace IntToRomain
                 if (match.Groups.Count > 0) // valide la présence du group attendu
                 {
                     int matchInt = Convert.ToInt32(match.Groups[0].Value); // converti la chaine en valeur entière entré par l'utilisateur
-                    string finalResult = ConvertToRomain(matchInt); // converti en nombre romain
+                    string finalResult = RomainConverter.ConvertToRomain(matchInt); // converti en nombre romain
                     if(finalResult != "")
                     {
                         Console.WriteLine("Resultat: " + inputStr + " => " + finalResult);   // affiche le résultat
@@ -78,7 +85,7 @@ namespace IntToRomain
             }
             else
             {
-                Error("Ceci [" + inputStr + "] n'est pas un entier de 4 characteres");
+                Console.WriteLine("Ceci [" + inputStr + "] n'est pas un entier de 4 characteres");
             }
     
             Console.WriteLine("Appuyer sur une touche..");
